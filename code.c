@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h> // Biblioteca que utiliza caracteres e acentuação da língua portuguesa
 #include <time.h> // Biblioteca que permite gerar números aleatórios diferentes ao executar o programa
 
 // Função que ordena os números do vetor em ordem crescente
-void ordena_crescente(int *vetor, size_t tamanho)
+void ordena_crescente(float *vetor, size_t tamanho)
 {
-    int aux; // Variável que cria um novo vetor para não substituir os valores do vetor original
+    float aux; // Variável que cria um novo vetor para não substituir os valores do vetor original
 
     for (int i = 0; i < tamanho; i++){
         for (int j = i+1; j < tamanho; j++){
@@ -19,14 +20,14 @@ void ordena_crescente(int *vetor, size_t tamanho)
     }
 
     for (int k = 0; k < tamanho; k++){
-        printf("%d ", vetor[k]); // Imprime vetor em ordem crescente
+        printf("%.0f ", vetor[k]); // Imprime vetor em ordem crescente
     }
 }
 
 // Função que ordena os números do vetor em ordem decrescente
-void ordena_decrescente(int *vetor, size_t tamanho)
+void ordena_decrescente(float *vetor, size_t tamanho)
 {
-    int aux; // Variável que cria um novo vetor para não substituir os valores do vetor original
+    float aux; // Variável que cria um novo vetor para não substituir os valores do vetor original
 
     for (int i = 0; i < tamanho; i++){
         for (int j = i+1; j < tamanho; j++){
@@ -40,17 +41,17 @@ void ordena_decrescente(int *vetor, size_t tamanho)
     }
 
     for (int k = 0; k < tamanho; k++){
-        printf("%d ", vetor[k]); // Imprime vetor em ordem decrescente
+        printf("%.0f ", vetor[k]); // Imprime vetor em ordem decrescente
     }
 }
 
 // Função que faz o somatório dos valores pares do vetor
-void soma_pares(int *vetor, size_t tamanho)
+void soma_pares(float *vetor, size_t tamanho)
 {
     int soma=0;
 
     for (int i = 0; i < tamanho; i++){
-        if (vetor[i] % 2 == 0)
+        if ((int)vetor[i] % 2 == 0)
             soma += vetor[i]; // Valores pares somados à variavel inicializada em 0
     }
 
@@ -58,25 +59,26 @@ void soma_pares(int *vetor, size_t tamanho)
 }
 
 // Função que cria um novo vetor com os valores divididos pelo seu dobro
-void faz_calculo(int *vetor, size_t tamanho)
+void faz_calculo(float *vetor, size_t tamanho)
 {
-    int aux[tamanho]; // Vetor no qual serão inseridos os novos valores, para não substituir o vetor original
+    float aux[tamanho]; // Vetor no qual serão inseridos os novos valores, para não substituir o vetor original
 
     for (int i = 0; i < tamanho; i++){
         aux[i] = vetor[i] / (vetor[i] * 2);
     }
 
     for (int i = 0; i < tamanho; i++){
-        printf("%d ", aux[i]); // Imprime vetor auxiliar
+        printf("%.1f ", aux[i]); // Imprime vetor auxiliar
     }
 }
 
-void conta_par_impar(int *vetor, size_t tamanho)
+// Função que conta a quantidade de valores pares e ímpares
+void conta_par_impar(float *vetor, size_t tamanho)
 {
     int par=0, impar=0;
 
     for (int i = 0; i < tamanho; i++){
-        if (vetor[i] % 2 == 0)
+        if ((int)vetor[i] % 2 == 0)
             par++; // Contador de números pares
         else
             impar++; // Contador de números ímpares
@@ -88,8 +90,10 @@ void conta_par_impar(int *vetor, size_t tamanho)
 
 void main()
 {
-    int numeros[15], op;
-    int num_cresc[15], num_decresc[15];
+    setlocale(LC_ALL, "Portuguese");
+
+    float numeros[15];
+    int op;
     srand(time(NULL)); //gerando números aleatórios sempre que o código é executado
 
     //Preenche o vetor com 15 valores aleatórios de 0 a 100
@@ -97,9 +101,17 @@ void main()
         numeros[i] = rand() % 100;
     }
 
+    printf("\nSequência de valores aleatórios: ");
+
+    for (int i = 0; i < 15; i++){
+        printf("%.0f ", numeros[i]);
+    }
+
+    printf("\n");
+
     // Laço de repetição para que o programa só encerre quando o usuário inserir 6
     while (op != 6){
-        printf("Informe a instrução que deseja:\n");
+        printf("\nInforme a instrução que deseja:\n");
         printf("[1] Números em forma crescente\n");
         printf("[2] Números em forma decrescente\n");
         printf("[3] Soma dos números pares\n");
@@ -113,37 +125,37 @@ void main()
         // Caso insira 1
         if (op == 1){
             ordena_crescente(numeros, 15);
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
 
         // Caso insira 2
         else if (op == 2){
             ordena_decrescente(numeros, 15);
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
 
         // Caso insira 3
         else if (op == 3){
             soma_pares(numeros, 15);
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
 
         // Caso insira 4
         else if (op == 4){
             faz_calculo(numeros, 15);
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
 
         // Caso insira 5
         else if (op == 5){
             conta_par_impar(numeros, 15);
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
 
         // Caso o valor inserido não seja nenhuma das opções apresentadas
         else if (op < 1 || op > 6){
             printf("\nOpção inválida, tente novamente.");
-            printf("\n\n--------------------\n");
+            printf("\n\n--------------------");
         }
     }
 }
